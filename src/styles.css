@@ -37,7 +37,7 @@ button {
   gap: 24px;
   justify-content: space-between;
   margin: 0 auto 20px;
-  max-width: 1240px;
+  max-width: 1280px;
 }
 
 .eyebrow {
@@ -48,7 +48,7 @@ button {
 }
 
 h1 {
-  font-size: clamp(2rem, 4vw, 4rem);
+  font-size: clamp(1.8rem, 3.4vw, 3.2rem);
   line-height: 1;
   margin: 0;
 }
@@ -56,7 +56,7 @@ h1 {
 .stats {
   display: grid;
   gap: 10px;
-  grid-template-columns: repeat(3, minmax(110px, 1fr));
+  grid-template-columns: repeat(4, minmax(130px, 1fr));
 }
 
 .stat,
@@ -68,8 +68,14 @@ h1 {
 }
 
 .stat {
-  padding: 14px;
+  border-top: 3px solid #b8bfb2;
+  padding: 12px 14px;
 }
+
+.stat-pending { border-top-color: #b96f45; }
+.stat-scheduled { border-top-color: #315674; }
+.stat-halted { border-top-color: #9a3a32; }
+.stat-done { border-top-color: #376336; }
 
 .stat span {
   color: #687166;
@@ -82,16 +88,27 @@ h1 {
   font-size: 1.65rem;
 }
 
+.stat em {
+  color: #8a9287;
+  display: block;
+  font-size: 0.72rem;
+  font-style: normal;
+  margin-top: 2px;
+}
+
 .layout {
   display: grid;
   gap: 18px;
   grid-template-columns: 340px 1fr;
   margin: 0 auto;
-  max-width: 1240px;
+  max-width: 1280px;
 }
 
 .panel {
+  align-self: start;
   padding: 18px;
+  position: sticky;
+  top: 18px;
 }
 
 .panel h2 {
@@ -104,11 +121,33 @@ h1 {
   gap: 12px;
 }
 
+.form-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.form-hint {
+  color: #8a9287;
+  font-size: 0.75rem;
+  margin: 0;
+}
+
 label {
   color: #5c655b;
   display: grid;
   font-size: 0.86rem;
   gap: 6px;
+}
+
+label.inline {
+  align-items: center;
+  display: grid;
+  gap: 6px;
+}
+
+label.inline.full {
+  grid-column: 1 / -1;
 }
 
 input,
@@ -123,7 +162,7 @@ textarea {
 }
 
 textarea {
-  min-height: 82px;
+  min-height: 76px;
   resize: vertical;
 }
 
@@ -136,12 +175,19 @@ textarea {
   padding: 10px 14px;
 }
 
-.ghost {
+.mini {
   background: #e9eee6;
   border-radius: 6px;
-  color: #526d4e;
+  color: #3f553c;
+  font-size: 0.78rem;
   font-weight: 800;
-  padding: 8px 10px;
+  justify-self: start;
+  padding: 7px 10px;
+}
+
+.primary-mini {
+  background: #526d4e;
+  color: white;
 }
 
 .toolbar {
@@ -171,46 +217,60 @@ textarea {
 
 .repair {
   display: grid;
-  gap: 14px;
-  grid-template-columns: 150px 1fr;
-  min-height: 150px;
-  overflow: hidden;
+  gap: 12px;
+  padding: 16px;
 }
 
-.photo {
-  align-items: center;
-  background: #e4e8df;
-  color: #6a7268;
+.status-card-halted {
+  border-color: #d7a7a1;
+  box-shadow: inset 4px 0 0 #9a3a32;
+}
+
+.status-card-scheduled {
+  box-shadow: inset 4px 0 0 #315674;
+}
+
+.status-card-doing {
+  box-shadow: inset 4px 0 0 #694c21;
+}
+
+.status-card-done {
+  box-shadow: inset 4px 0 0 #376336;
+}
+
+.card-head {
+  align-items: flex-start;
   display: flex;
-  font-weight: 800;
-  justify-content: center;
-  min-height: 150px;
+  gap: 12px;
+  justify-content: space-between;
 }
 
-.photo img {
-  height: 100%;
-  object-fit: cover;
-  width: 100%;
+.head-main h3 {
+  font-size: 1.04rem;
+  margin: 0 0 4px;
 }
 
-.content {
-  display: grid;
-  gap: 10px;
-  padding: 14px 14px 14px 0;
-}
-
-.content h3 {
-  font-size: 1.08rem;
-  margin: 0;
-}
-
-.content p {
+.title {
   color: #60695f;
   margin: 0;
 }
 
-.row {
-  align-items: center;
+.head-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.thumb {
+  border-radius: 6px;
+  height: 58px;
+  object-fit: cover;
+  width: 78px;
+}
+
+.meta-row,
+.visit-top {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -218,9 +278,10 @@ textarea {
 
 .chip,
 .priority,
-.status {
+.status,
+.skill {
   border-radius: 999px;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 800;
   padding: 4px 9px;
 }
@@ -230,44 +291,315 @@ textarea {
   color: #596257;
 }
 
-.priority.high {
-  background: #f2c5b2;
-  color: #813d2a;
-}
-
-.priority.medium {
-  background: #f4deb4;
-  color: #694c21;
-}
-
-.priority.low {
-  background: #dcebd9;
-  color: #3d6937;
-}
-
-.status.todo {
-  background: #eadbd7;
-  color: #783d34;
-}
-
-.status.doing {
-  background: #dde8f2;
+.skill {
+  background: #e6ecef;
   color: #315674;
 }
 
-.status.done {
-  background: #d8ead6;
-  color: #376336;
+.priority.high { background: #f2c5b2; color: #813d2a; }
+.priority.medium { background: #f4deb4; color: #694c21; }
+.priority.low { background: #dcebd9; color: #3d6937; }
+
+.status.pending { background: #eadbd7; color: #783d34; }
+.status.scheduled { background: #dde8f2; color: #315674; }
+.status.halted { background: #f1d3cf; color: #9a3a32; }
+.status.doing { background: #f4e7cd; color: #694c21; }
+.status.done { background: #d8ead6; color: #376336; }
+
+/* 三道前置 */
+.gates {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(3, 1fr);
 }
 
-.actions {
+.gate {
+  align-items: flex-start;
+  background: #f6f7f3;
+  border: 1px solid #e1e5dc;
+  border-radius: 8px;
+  display: flex;
+  gap: 9px;
+  padding: 10px;
+}
+
+.gate-index {
+  align-items: center;
+  background: #d7ddd2;
+  border-radius: 50%;
+  color: #556051;
+  display: flex;
+  font-size: 0.78rem;
+  font-weight: 800;
+  height: 22px;
+  justify-content: center;
+  width: 22px;
+}
+
+.gate-body {
+  display: grid;
+  gap: 4px;
+}
+
+.gate-body strong {
+  font-size: 0.86rem;
+}
+
+.gate-body small {
+  color: #8a9287;
+  font-size: 0.72rem;
+}
+
+.gate.done {
+  background: #edf4ea;
+  border-color: #c9dcc4;
+}
+
+.gate.done .gate-index {
+  background: #526d4e;
+  color: white;
+}
+
+.gate.next {
+  background: #fdf3ea;
+  border-color: #e3b596;
+}
+
+.gate.next .gate-index {
+  background: #b96f45;
+  color: white;
+}
+
+.gates.locked {
+  opacity: 0.92;
+}
+
+.blocker {
+  background: #f7e7e3;
+  border: 1px dashed #c98a7f;
+  border-radius: 8px;
+  color: #7a352b;
+  padding: 10px 12px;
+}
+
+.blocker strong,
+.reject strong,
+.booking-head strong,
+.inspection strong,
+.completion strong {
+  font-size: 0.86rem;
+}
+
+.blocker p,
+.reject p {
+  font-size: 0.78rem;
+  margin: 4px 0 0;
+}
+
+.reject {
+  background: #fbeeea;
+  border: 1px solid #ddaa9e;
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+/* 预约 */
+.booking,
+.inspection,
+.completion {
+  background: #f8faf6;
+  border: 1px solid #dce3d6;
+  border-radius: 8px;
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+}
+
+.booking-head {
+  align-items: baseline;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
+.merge-hint {
+  color: #6b7568;
+  font-size: 0.76rem;
+}
+
+.booking-row {
+  align-items: end;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: minmax(150px, 1fr) minmax(150px, 1fr) auto;
+}
+
+.visit {
+  border-radius: 8px;
+  border: 1px solid #d5dcd0;
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+}
+
+.visit-scheduled { background: #f3f7fb; border-color: #b9cde0; }
+.visit-halted { background: #fbf0ee; border-color: #d7a7a1; }
+.visit-active { background: #fdf8ee; border-color: #e3cf9f; }
+.visit-done { background: #f2f7f0; border-color: #bdd6b8; }
+
+.visit-note {
+  color: #5f695c;
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+.visit-note.freeze {
+  color: #9a3a32;
+  font-weight: 700;
+}
+
+.checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.check {
+  align-items: center;
+  background: white;
+  border: 1px solid #d4dacf;
+  border-radius: 999px;
+  display: flex;
+  gap: 6px;
+  grid-template-columns: none;
+  padding: 6px 12px;
+}
+
+.check input {
+  min-height: auto;
+  width: auto;
+}
+
+/* 整改 */
+.rects,
+.completions {
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.rect,
+.completion-record {
+  align-items: center;
+  background: white;
+  border: 1px solid #e0e4db;
+  border-radius: 8px;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  padding: 10px 12px;
+}
+
+.rect.open {
+  border-color: #d7a7a1;
+}
+
+.rect p,
+.completion-record p {
+  font-size: 0.8rem;
+  margin: 2px 0;
+}
+
+.rect small,
+.completion-record small {
+  color: #8a9287;
+  font-size: 0.72rem;
+}
+
+.completion-record.returned {
+  border-color: #ddaa9e;
+  background: #fdf6f4;
+}
+
+.completion-record.done {
+  border-color: #bdd6b8;
+  background: #f6faf4;
+}
+
+.record-badge {
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  padding: 4px 9px;
+  white-space: nowrap;
+}
+
+.record-badge.done { background: #d8ead6; color: #376336; }
+.record-badge.returned { background: #f2c5b2; color: #813d2a; }
+
+.done-box {
+  align-items: center;
+  background: #f2f7f0;
+  border: 1px solid #bdd6b8;
+  border-radius: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 12px;
+}
+
+/* 只追加的流转历史 */
+.history summary {
+  color: #687166;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.history ol {
+  border-left: 2px solid #dfe4da;
+  display: grid;
+  gap: 6px;
+  list-style: none;
+  margin: 10px 0 0;
+  padding-left: 12px;
+}
+
+.ev {
+  display: grid;
+  gap: 2px;
+  grid-template-columns: 130px 1fr;
+}
+
+.ev-time {
+  color: #949c90;
+  font-size: 0.72rem;
+}
+
+.ev-text {
+  font-size: 0.78rem;
+}
+
+.ev-booking_rejected .ev-text,
+.ev-inspection_failed .ev-text,
+.ev-completion_returned .ev-text {
+  color: #9a3a32;
+  font-weight: 700;
+}
+
+.ev-released .ev-text,
+.ev-completion_done .ev-text,
+.ev-inspection_passed .ev-text {
+  color: #376336;
+}
+
 .empty {
   align-items: center;
+  background: white;
+  border: 1px dashed #cfd6cc;
+  border-radius: 8px;
   color: #828a80;
   display: flex;
   min-height: 200px;
@@ -275,11 +607,19 @@ textarea {
   text-align: center;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .header,
   .layout {
     display: grid;
     grid-template-columns: 1fr;
+  }
+
+  .panel {
+    position: static;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -288,15 +628,15 @@ textarea {
     padding: 16px;
   }
 
-  .stats {
+  .gates {
     grid-template-columns: 1fr;
   }
 
-  .repair {
+  .booking-row {
     grid-template-columns: 1fr;
   }
 
-  .content {
-    padding: 14px;
+  .ev {
+    grid-template-columns: 1fr;
   }
 }
